@@ -1,0 +1,1417 @@
+@import "customVariables.scss";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-compass";
+@import "custom";
+
+//My Styles
+//Main functions (mixins)
+
+@mixin get-font-styles($font-family, $font-size, $font-weight, $text-transform, $letter-spacing, $text-align) {
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  text-transform: $text-transform;
+  letter-spacing: $letter-spacing;
+  text-align: $text-align;
+}
+
+@mixin get-button-styles($font-size, $padding, $font-weight, $letter-spacing) {
+  padding: $padding;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  letter-spacing: $letter-spacing;
+  display: block;
+  cursor: pointer;
+}
+
+@mixin get-circle-style($width, $height, $background, $border, $background) {
+  width: $width;
+  height: $height;
+  background: $background;
+  border: $border;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+}
+
+@mixin get-overlay-image($height, $width, $position, $top-position, $bottom-position, $bg-size, $bg-type) {
+  height: $height;
+  width: $width;
+  position: $position;
+  @if $top-position {
+    top: $top-position;
+  }
+  @if $bottom-position {
+    bottom: $bottom-position;
+  }
+  @if $bg-type == icon-done {
+    background-image: url("../images/done_icon.png");
+  } @else if $bg-type == icon-question {
+    background-image: url("../images/question_icon.png");
+  }
+
+  background-size: $bg-size;
+  background-repeat: no-repeat;
+  margin: auto;
+}
+
+@mixin get-transitions($position, $time, $animation){
+  -webkit-transition: $position $time $animation;
+  -moz-transition: $position $time $animation;
+  -ms-transition: $position $time $animation;
+  -o-transition: $position $time $animation;
+  transition: $position $time $animation;
+}
+
+@mixin get-background-image($height, $width, $image-name, $background-size, $background-repeat){
+  height: $height;
+  width: $width;
+  background-image: url("../images/#{$image-name}.png");
+  background-size: $background-size;
+  background-repeat: $background-repeat;
+}
+
+@mixin get-award-image-wrapper($margin, $padding, $text-align, $display, $img-margin, $img-max-width, $img-border, $img-width){
+  text-align: $text-align;
+  margin: $margin;
+  display: $display;
+  padding: $padding;
+  .image {
+    margin: $img-margin;
+    max-width: $img-max-width;
+    cursor: pointer;
+    position: relative;
+    img {
+      border: $img-border;
+      width: $img-width;
+    }
+  }
+}
+
+@mixin get-input-styles($border, $background-color, $radious, $margin, $padding, $height){
+  border: $border;
+  background-color: $background-color;
+  -webkit-border-radius: $radious;
+  -moz-border-radius: $radious;
+  border-radius: $radious;
+  margin: $margin;
+  padding: $padding;
+  height: $height;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;;
+  box-shadow: none !important;;
+}
+
+@mixin get-border-radious($radious){
+  -webkit-border-radius: $radious;
+  -moz-border-radius: $radious;
+  border-radius: $radious;
+}
+
+@mixin get-box-shadow($shadow-params){
+  -webkit-box-shadow: $shadow-params;
+  -moz-box-shadow: $shadow-params;
+  box-shadow: $shadow-params;
+}
+
+//All paddings and margins class (.padding-top-20, .padding-top-30, ...)
+@each $value in 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100{
+  .padding-top-#{$value}{
+    padding-top: #{$value}px;
+  }
+  .padding-bottom-#{$value}{
+    padding-bottom: #{$value}px;
+  }
+  .margin-top-#{$value}{
+    margin-top: #{$value}px;
+  }
+  .margin-bottom-#{$value}{
+    margin-bottom: #{$value}px;
+  }
+}
+
+//Main body styles overites
+body {
+  font-family: $gdc-primary-font;
+  color: $gdc-color-black;
+  background-image: url("../images/page_bg.png");
+  background-position: -350px 140px;
+  background-repeat: no-repeat;
+  //background-attachment: fixed;
+}
+body.no-background{
+  background-image: none !important;
+}
+p {
+  line-height: 24px;
+}
+a{
+  color: $gdc-color-black;
+}
+a:hover{
+  color: $gdc-color-gold;
+}
+label {
+  font-weight: normal;
+}
+::-webkit-input-placeholder {
+  @include get-font-styles($gdc-secondary-font, 14px, normal, none, 1px, left);
+}
+::-moz-placeholder {
+  @include get-font-styles($gdc-secondary-font, 14px, normal, none, 1px, left);
+}
+:-ms-input-placeholder {
+  @include get-font-styles($gdc-secondary-font, 14px, normal, none, 1px, left);
+}
+
+//Header
+.navbar-brand {
+  padding: 10px;
+}
+.navbar-toggle{
+  float: none;
+  margin-bottom: 10px;
+  border-radius: 0;
+  margin-top:-10px;
+}
+.navbar-nav{
+  li{
+    a{
+      padding-top: 30px;
+      padding-bottom:10px;
+      color: #ffffff !important;
+      @include get-font-styles(inherit, 16px, 600, none, 1px, left);
+      @include get-transitions(all, 0.4s, ease);
+      background: none !important;
+    }
+    ul{
+      background: $gdc-color-black;
+      li{
+        a{
+          padding-top:10px;
+          padding-bottom:10px;
+        }
+      }
+    }
+  }
+}
+nav.navbar {
+  border-bottom: $gdc-common-border;
+  @include get-transitions(all, 0.4s, ease);
+}
+/// When shrink the header ///
+nav.navbar.shrink {
+  min-height: 60px;
+  .language-seletor-wrapper {
+    display: none;
+  }
+  .header-circle-line-wrapper {
+    top: 5px;
+  }
+  .main-logo {
+    width: 90px;
+  }
+  .navbar-brand {
+    height: 60px;
+  }
+  .navbar-nav {
+    li {
+      a {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      ul{
+        li{
+          a{
+            padding-top:10px;
+            padding-bottom:10px;
+          }
+        }
+      }
+    }
+  }
+}
+.main-logo {
+  width: 125px;
+  @include get-transitions(all, 0.4s, ease);
+}
+.header-line-wrapper {
+  position: relative;
+}
+.header-circle-wrapper {
+  position: relative;
+  z-index: 10;
+  top: 16px;
+}
+.header-circle-line-wrapper {
+  position: relative;
+  top: 15px;
+  opacity: 0;
+  text-align: center;
+  @include get-transitions(all, 0.4s, ease);
+}
+.header-circle {
+  $circle-border: 2px solid $gdc-color-gold;
+  @include get-circle-style(20px, 20px, $gdc-color-black, $circle-border, $gdc-color-black);
+  display: inline-block;
+  //cursor: pointer;
+}
+.header-circle-coloured {
+  background: $gdc-color-gold;
+}
+.header-line {
+  width: 100%;
+  height: 2px;
+  background: $gdc-color-gray-2;
+  display: block;
+}
+.language-seletor-wrapper {
+  @include get-font-styles(inherit, 12px, 700, uppercase, 1px, right);
+  position: relative;
+  right: 0;
+  top: 10px;
+  display: none;
+  .language{
+    cursor: pointer;
+  }
+  .en {
+    color: #ffffff;
+    display: inline-block;
+    padding-left: 5px;
+  }
+  .fr {
+    color: #ffffff;
+    display: inline-block;
+    padding-right: 5px;
+  }
+  .en.selected{
+    color: $gdc-color-gold;
+  }
+  .fr.selected{
+    color: $gdc-color-gold;
+  }
+  .dot:after {
+    font-size: 14px;
+    content: ' \25CF';
+    color: #ffffff;
+  }
+
+}
+
+//Main content styles
+.main-content-area {
+  padding-top: $gdc-content-padding-top;
+  .row {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.main-login-area{
+  padding-top:0;
+}
+
+//Welcome page
+.welcome-heading {
+  @include get-font-styles(inherit, 30px, 700, uppercase, 1px, center);
+  margin-bottom: 20px;
+}
+
+.welcome-sub-heading {
+  @include get-font-styles(inherit, 18px, 700, none, 1px, center);
+  margin-bottom: 10px;
+}
+
+.welcome-content-p1 {
+  @include get-font-styles(inherit, 16px, 500, none, 1px, left);
+}
+
+.welcome-content-p2 {
+  @include get-font-styles(inherit, 14px, 500, none, 1px, left);
+}
+
+.welcome-note {
+  @include get-font-styles($gdc-secondary-font, 18px, normal, none, 1px, left);
+}
+
+//Login form styles
+.login-form-wrapper {
+  background: $gdc-color-light-red;
+  @include get-font-styles(inherit, 14px, 500, none, 1px, left);
+  .login-header {
+    background: $gdc-color-black;
+    text-align: center;
+    .logo {
+      width: 200px;
+      padding: 20px;
+    }
+  }
+  .login-form {
+    padding: 20px;
+    input {
+      @include get-border-radious(0);
+      border: 0;
+      background-color: #fff;
+      margin-bottom: 20px;
+      height: 40px;
+    }
+    .submit-btn {
+      @extend .button-style;
+      @include get-button-styles(14px, 0, 800, 2px);
+      @include get-border-radious(0);
+      @include box-shadow(none);
+      background: none;
+      color: $gdc-color-black;
+      border-right: 0;
+      border-left: 0;
+    }
+    .txt-small {
+      @include get-font-styles(inherit, 12px, 500, none, 1px, left);
+      text-decoration: underline;
+    }
+  }
+}
+
+//Category items - Awards styles
+.award-category {
+  .heading {
+    @include get-font-styles(inherit, 30px, normal, uppercase, 4px, left);
+  }
+  .sub-heading {
+    @include get-font-styles($gdc-secondary-font, 18px, normal, none, 2px, left);
+  }
+  .content-heading {
+    @include get-font-styles(inherit, 18px, 700, none, 0, left);
+  }
+  .award-image {
+    $margin : 15px auto 10px auto;
+    $padding : 0;
+    $img-border : 1px solid #EEEEEE;
+    $img-margin : 0 auto 10px auto;
+    @include get-award-image-wrapper($margin, $padding, center, block, $img-margin, 174px, $img-border, 100%);
+
+    .title {
+      @include get-font-styles(inherit, 15px, 600, none, 0, center);
+    }
+  }
+
+  .award-image-selected {
+    .title {
+      font-weight: 800;
+    }
+    .description {
+      font-weight: 800;
+    }
+  }
+
+  .overlay-selected {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(212, 180, 105, 0.8);
+    text-align: center;
+    cursor: pointer;
+    .done-image {
+      @include get-overlay-image(88px, 88px, relative, 25%, false, 100%, icon-done)
+    }
+  }
+
+  .award-categories{
+    .left-circle-wrapper{
+      display: inline-block !important;
+      width: 12% !important;
+      vertical-align: top;
+    }
+    .right-text-wrapper{
+      display: inline-block !important;
+      width: 86% !important;
+      vertical-align: top;
+    }
+  }
+
+}
+
+//Sidebar styles
+.sidebar {
+  padding-top: 15px;
+  .award-categories {
+    border-left: 2px solid $gdc-color-gold;
+    background: #f9f9f9;
+    padding: 20px;
+
+    li {
+      list-style: none;
+      margin-top: 14px;
+      margin-bottom: 14px;
+      @include get-font-styles(inherit, 12px, 500, none, 0, left);
+
+      .circle {
+        $circle-border: 2px solid $gdc-color-gold;
+        @include get-circle-style(12px, 12px, $gdc-color-black, $circle-border, none);
+        display: inline-block;
+        cursor: pointer;
+        margin-right: 10px;
+        position: relative;
+        top: 2px;
+      }
+      .circle-selected {
+        background: $gdc-color-gold;
+      }
+
+      .completed {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+//Voted summery styles
+.voted-summery {
+  .heading {
+    @include get-font-styles(inherit, 30px, normal, uppercase, 4px, left);
+  }
+  .sub-heading {
+    @include get-font-styles($gdc-secondary-font, 18px, normal, none, 2px, left);
+  }
+  .category-title {
+    @include get-font-styles($gdc-secondary-font, 18px, normal, none, 1px, left);
+  }
+  .title {
+    @include get-font-styles(inherit, 18px, 700, none, 0, left);
+  }
+  .title-not-selected {
+    @include get-font-styles(inherit, 18px, normal, none, 0, left);
+    font-style: italic;
+  }
+  .voted-item-wrapper {
+    margin-top: 30px;
+    .voted-item {
+      padding-left: 0;
+      margin-bottom: 20px;
+      div {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .image {
+        max-width: 100px;
+        width: 100%;
+        position: relative;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .done-image {
+    @include get-overlay-image(50px, 50px, absolute, false, 0, 100%, icon-done);
+    right: 0;
+  }
+
+  .image-not-selected {
+    background: $gdc-color-gold;
+    height: 100px;
+    width:100px;
+    .question-image {
+      @include get-overlay-image(50px, 50px, relative, 25%, 0, 100%, icon-question);
+      margin: auto;
+    }
+  }
+  .summary-block-wrapper{
+    margin-bottom: 20px;
+  }
+  .voted-item-wrapper{
+    .summary-image-wrapper{
+      width: 22%;
+      display: inline-block;
+      vertical-align: top;
+      img{
+        width:100px;
+        height:100px;
+      }
+    }
+    .summary-image-description{
+      width:77%;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+  .summary-block-wrapper{
+    a{
+      text-decoration: none !important;
+    }
+    a:hover{
+      text-decoration: none !important;;
+    }
+    a:visited{
+      text-decoration: none !important;;
+    }
+  }
+}
+
+//Baillif common styles
+.baillif{
+  .heading {
+    @include get-font-styles(inherit, 30px, normal, uppercase, 4px, left);
+  }
+  .sub-heading {
+    @include get-font-styles(inherit, 18px, 700, none, 0, left);
+  }
+  .content-heading {
+    @include get-font-styles(inherit, 22px, 700, none, 0, left);
+  }
+  .no-of-votes{
+    @include get-font-styles(inherit, 26px, normal, none, 1px, left);
+  }
+  .vote-desc{
+    @include get-font-styles(inherit, 12px, 700, none, 0, left);
+    color: $gdc-color-gold;
+  }
+  .vote-label{
+    @extend .vote-desc;
+  }
+  .vote-date{
+    @extend .no-of-votes;
+  }
+  .export-txt{
+    @include get-font-styles(inherit, 14px, 700, none, 0, right);
+    span{
+      font-weight:500;
+      margin-left: 15px;
+      padding-bottom:1px;
+      cursor: pointer;
+      border-bottom: 2px solid $gdc-color-gold;
+    }
+  }
+  .btn-info{
+    background: $gdc-color-gold;
+    padding:10px 20px !important;
+    border:0 !important;
+    @include get-border-radious(0);
+    @include get-button-styles(14px, 15px 0, 800, 2px);
+  }
+
+  .btn-default{
+    color: #ffffff;
+    @extend .btn-info;
+  }
+
+  .padding-bottom-0{
+    padding-bottom:0 !important;
+  }
+
+  .padding-top-0{
+    padding-top:0 !important;
+  }
+}
+
+//Baillif dashboard styles
+.baillif-dashboard{
+  .award-image {
+    $margin : 15px auto 10px auto;
+    $padding : 20px 0;
+    $img-border : 1px solid #EEEEEE;
+    $img-margin : 0 auto 10px auto;
+    @include get-award-image-wrapper($margin, $padding, center, block, $img-margin, 200px, $img-border, 100%);
+
+    .category {
+      @include get-font-styles(inherit, 14px, 600, none, 0, center);
+      color: $gdc-color-gold;
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+    .title {
+      @include get-font-styles(inherit, 18px, 700, upprecase, 0, center);
+    }
+    .votes {
+      @include get-font-styles($gdc-secondary-font, 18px, normal, none, 0, center);
+    }
+  }
+}
+
+//Baillif voters styles
+.baillif-voters, .main-admin{
+  table{
+    border: 2px solid #e6e6e6 !important;
+    th{
+      background: $gdc-color-black;
+      color: #ffffff !important;
+      text-align: center;
+      border: 2px solid #e6e6e6 !important;
+      padding:15px !important;
+      //min-width: 150px;
+      vertical-align: middle !important;
+      a{
+        color: #FFFFFF;
+      }
+      a:hover{
+        color: #FFFFFF;
+        text-decoration: none;
+      }
+    }
+    td{
+      border-right: 2px solid #e6e6e6 !important;
+      border-left:none !important;
+      border-top:none !important;
+      border-bottom:none !important;
+      padding:10px !important;
+      @include get-font-styles(inherit, 14px, 500, none, 0, left);
+    }
+    td.text-center{
+      @include get-font-styles(inherit, 14px, 500, none, 0, center);
+    }
+  }
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f8f4eb;
+  }
+  .voted-complete-icon{
+    @include get-background-image(24px, 24px, correct_icon_filled, 100%, no-repeat);
+    margin:auto;
+  }
+  .voted-icon{
+    @include get-background-image(24px, 24px, correct_icon_unfilled, 100%, no-repeat);
+    margin:auto;
+  }
+  .not-voted-icon{
+    text-align: center;
+  }
+  .table-wrapper{
+    overflow: auto;
+  }
+  input, select {
+    $margin : 0 auto 20px;
+    $padding : 5px 10px;
+    @include get-input-styles(0, $gdc-color-light-red, 0, $margin, $padding, 40px);
+    color: $gdc-color-black;
+    border:1px solid #DDDDDD;
+  }
+  select {
+    font-weight:bold;
+  }
+  .search-btn {
+    $padding : 5px 20px;
+    @include get-input-styles(0, $gdc-color-gold, 0, 0, $padding, 40px);
+    @include get-font-styles(inherit, 14px, 700, none, 2px, center);
+    color: #ffffff;
+  }
+  .votes-tbl{
+    th{
+      min-width: 150px;
+    }
+  }
+}
+
+//Some overites for voters all page
+.baillif-voters-all{
+  table{
+    th{
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+      @include get-font-styles(inherit, 12px, 600, none, 0, center);
+      a{
+        color: #FFFFFF;
+      }
+      a:hover{
+        color: #FFFFFF;
+        text-decoration: none;
+      }
+    }
+    td{
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+      @include get-font-styles(inherit, 12px, normal, none, 0, left);
+    }
+  }
+}
+
+//Baillif award winners
+.baillif-award-winners{
+  .award-image{
+    $margin : 15px auto 10px auto;
+    $img-border : 1px solid #EEEEEE;
+    $img-margin : 0 auto 20px auto;
+    $padding : 20px 0;
+    @include get-award-image-wrapper($margin, $padding, center, block, $img-margin, 200px, $img-border, 100%);
+
+    .title {
+      @include get-font-styles(inherit, 18px, 500, upprecase, 0, center);
+    }
+    .votes {
+      @include get-font-styles($gdc-secondary-font, 18px, normal, none, 0, center);
+    }
+  }
+  .selected-award-image{
+    .title, .votes{
+      font-weight:700;
+    }
+    .votes{
+      color: $gdc-color-gold;
+    }
+    img{
+      border:3px solid $gdc-color-gold !important;
+    }
+  }
+  input, select {
+    $padding:5px 15px;
+    @include get-input-styles(0, $gdc-color-light-red, 0, 0, $padding, 40px);
+  }
+  select {
+    font-weight:bold;
+    color: $gdc-color-black;
+    letter-spacing:1px;
+  }
+}
+
+//Super admin dashboard
+.main-admin{
+  .dashboard-notifications{
+    padding-left: 0;
+      li {
+        list-style: none;
+        margin-top: 14px;
+        margin-bottom: 14px;
+        @include get-font-styles(inherit, 14px, 500, none, 0, left);
+
+        .circle {
+          $circle-border: 2px solid $gdc-color-gold;
+          @include get-circle-style(12px, 12px, $gdc-color-black, $circle-border, none);
+          display: inline-block;
+          margin-right: 10px;
+          position: relative;
+          top: 2px;
+        }
+      }
+    }
+  .platform{
+    @include get-font-styles(inherit, 22px, normal, none, 1px, left);
+    .color-wrap{
+      height:20px;
+      width:20px;
+      display: inline-block;
+      margin-right:10px;
+      position: relative;
+      top:2px;
+    }
+    .mobile-color{
+      background-color: $gdc-color-gold;
+    }
+    .desktop-color{
+      background-color: $gdc-color-gray;
+    }
+  }
+  input, select {
+    $margin : 0 auto 20px;
+    $padding : 5px 10px;
+    @include get-input-styles(0, #ffffff, 0, $margin, $padding, 40px);
+    color: $gdc-color-black;
+    @include get-border-radious(0);
+    border: 1px solid $gdc-color-gray;
+  }
+  select {
+    font-weight:bold;
+  }
+  .btn-info{
+    $padding : 5px 20px;
+    @include get-input-styles(0, $gdc-color-gold, 0, 0, $padding, 40px);
+    @include get-font-styles(inherit, 14px, 700, none, 2px, center);
+    color: #ffffff;
+    line-height:30px;
+  }
+  .card-header {
+    h2{
+      @include get-font-styles(inherit, 30px, normal, uppercase, 4px, left);
+    }
+  }
+  .nominee-tbl{
+    th{
+      min-width: 50px;
+    }
+    img{
+      width:80px;
+    }
+  }
+  .category-tbl{
+    @extend .nominee-tbl;
+  }
+  .voter-tbl{
+    @extend .nominee-tbl;
+  }
+  .btn-primary{
+    background-color: #000;
+    border-color: #000;
+  }
+  .breadcrumb{
+    font-size: 12px;
+  }
+  .view-layout-table{
+    th{
+      text-align: left;
+      background: none;
+      color: $gdc-color-black !important;
+      border: 0 !important;
+      width: 25%;
+    }
+    tr{
+      border-bottom: 1px solid #e6e6e6;
+    }
+  }
+  .nominee-list{
+    padding:0;
+    margin:0;
+    li{
+      list-style: none;
+      margin-bottom:10px;
+    }
+    img{
+      width: 80px;
+    }
+  }
+}
+
+//Menu style
+.navbar-nav li a{
+  font-size: 14px;
+}
+
+//Export Menu
+.export-menu-wrapper{
+  position: relative;
+  top: 20px;
+}
+
+//Bootstrap modal
+.border-radious-0 {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.modal {
+  top: 15%;
+}
+.modal-content {
+  @extend .border-radious-0;
+  .modal-header {
+    background: $gdc-color-black;
+    @include get-font-styles(inherit, 18px, 700, uppercase, 2px, left);
+    color: #ffffff;
+    border-bottom: 0;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    .bootstrap-dialog-close-button {
+      .close {
+        border: 1px solid #ffffff;
+        padding: 5px;
+        color: #ffffff;
+        text-shadow: none;
+        height: 35px;
+        width: 35px;
+        opacity: 1;
+        font-size: 30px;
+        line-height: 30px;
+        padding-top: 0;
+      }
+    }
+  }
+  .modal-body {
+    @include get-font-styles(inherit, 18px, 500, none, 1px, left);
+    padding: 30px;
+  }
+  .modal-footer {
+    border-top: 0;
+    text-align: center;
+    padding-bottom: 50px;
+    .btn-default {
+      @extend .button-style;
+      @include get-button-styles(18px, 8px 0, 800, 2px);
+      @extend .border-radious-0;
+      border-right: 0;
+      border-left: 0;
+      margin-left: 15px;
+      margin-right: 15px;
+      margin-bottom: 20px;
+    }
+  }
+  .btn-default:hover, .btn-default:active, .btn-default:focus{
+      background: none !important;
+   }
+}
+
+//Paginations
+.pagination{
+  li{
+    @include get-font-styles(inherit, 18px, 500, uppercase, 2px, left);
+    padding: 0 8px;
+    display: inline-block;
+  }
+  li.active{
+    color: $gdc-color-gold !important;
+  }
+  li.prev{
+    padding-left:12px;
+  }
+  li.next{
+    padding-right:12px;
+  }
+  width: 100% !important;
+  text-align: center !important;
+}
+
+//TO DO - Proper overites
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus{
+  color: $gdc-color-gold;
+  background-color: #fff;
+  border-color: #fff;
+}
+.pagination > li > a, .pagination > li > span{
+  color: $gdc-color-black;
+  background-color: #fff;
+  border-color: #fff;
+}
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus{
+  color: $gdc-color-black;
+  background-color: #fff;
+  border-color: #fff;
+}
+.pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus{
+  color: $gdc-color-black;
+  background-color: #fff;
+  border-color: #fff;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+  opacity:0.75;
+}
+
+//Prev, Next and Skip button styles
+.prev-next-skip-btns {
+  .back:before {
+    content: '\2039';
+    font-size: 24px;
+    margin: 0 auto;
+    line-height: 0;
+    margin-right: 5px;
+  }
+
+  .next:after {
+    content: '\203A';
+    font-size: 24px;
+    margin: 0 auto;
+    line-height: 0;
+    margin-left: 5px;
+  }
+
+  .skip:after {
+    content: '\00BB';
+    font-size: 18px;
+    margin: 0 auto;
+    line-height: 0;
+    margin-left: 5px;
+  }
+}
+
+//All button styles
+.button-style {
+  text-transform: uppercase;
+  border-top: 2px solid $gdc-color-gold;
+  border-bottom: 2px solid $gdc-color-gold;
+  text-align: center;
+  display: inline-block;
+
+  .style-1 {
+    @include get-button-styles(14px, 15px 0, 800, 2px);
+  }
+  .style-2 {
+    @include get-button-styles(18px, 10px 0, 800, 2px);
+  }
+  .style-3 {
+    @include get-button-styles(13px, 8px 0, 800, 2px);
+  }
+}
+
+.align-h-middle{
+  vertical-align: middle;
+  position: relative;
+  top:5px;
+}
+
+//Common styles Voter+Bailiff+Admin
+.select2-selection{
+  img{
+    width: 60px;
+    padding: 7px;
+    padding: 7px;
+  }
+  li{
+    margin-bottom:5px !important;
+  }
+}
+
+.select2-results{
+  @extend .select2-selection;
+}
+
+//Ajax loader
+.ajax-loader{
+  width:24px;
+  height:24px;
+  background-image:  url("../images/ajax-loader.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+//Footer styles
+.footer {
+  background: $gdc-color-black;
+  text-align: center;
+  width: 100%;
+  border-top: $gdc-common-border;
+  min-height: $gdc-footer-height;
+  padding: $gdc-footer-padding;
+  a{
+    color: #FFFFFF;
+  }
+  a:hover{
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+}
+
+ul.footer-menu {
+  color: $gdc-color-gray;
+  font-size: 12px;
+  margin: 0;
+  padding-left:0;
+  li {
+    padding-left: 15px;
+    padding-right: 15px;
+    display: inline-block;
+  }
+  li.copyright {
+    @include get-font-styles(inherit, 12px, 600, uppercase, 2px, center);
+    color: #FFFFFF;
+  }
+}
+
+/* Kartik-V widget styles */
+.dropdown-menu.kv-checkbox-list {
+    width: 270px;
+    .checkbox input[type="checkbox"]{
+      top: -10px;
+    }
+}
+
+/////////////////////////// 5 Column grid /////////////////////////////////
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.col-xs-15 {
+  width: 20%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  .col-sm-15 {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-15 {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-15 {
+    width: 20%;
+    float: left;
+  }
+}
+
+/////////////////////////// End 5 Column grid /////////////////////////////////
+
+/////////////////////////// Custom media queries /////////////////////////////////
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width: 320px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+
+}
+
+/*==========  Non-Mobile First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1200px) {
+  .award-category{
+    .overlay-selected {
+      .done-image {
+        @include get-overlay-image(50px, 50px, relative, 35%, false, 100%, icon-done)
+      }
+    }
+  }
+
+  .voted-summery{
+    .done-image {
+      @include get-overlay-image(40px, 40px, absolute, false, 0, 100%, icon-done);
+    }
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+  .navbar-brand{
+    width:100%;
+    margin-left:0 !important;
+  }
+  .main-logo{
+    width: 150px;
+    margin-left: auto;
+    margin-right:auto;
+  }
+  .language-seletor-wrapper{
+    text-align: center;
+    top:18px;
+  }
+  .header-circle-line-wrapper{
+    padding-bottom: 30px;
+  }
+  .navbar-fixed-top{
+    position: static;
+  }
+  .main-content-area{
+    padding-top: 0;
+  }
+  .header-circle {
+    width: 18px;
+    height: 18px;
+  }
+  .award-categories {
+    border-left:0 !important;
+    border-top: 2px solid $gdc-color-gold;
+  }
+  #navbar{
+    text-align: center;
+    ul{
+      width: 100%;
+      margin:auto;
+    }
+    li{
+      float: none;
+      display: inline-block;
+    }
+  }
+  .chart-wrapper{
+    margin-bottom: 20px;
+  }
+  .select-box{
+    padding: 20px;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  .baillif .export-txt{
+    text-align: left;
+  }
+
+  #navbar{
+    padding-left:0;
+    ul{
+      width: 100%;
+      margin:auto;
+    }
+    li{
+      display: block;
+      a{
+        padding: 15px 0;
+      }
+    }
+  }
+
+  .baillif-voters{
+    .form-control{
+      margin-top:20px;
+    }
+    .search-btn{
+      margin-top:20px;
+    }
+  }
+
+  .login-form-wrapper{
+    .login-form{
+      padding:10px 5px;
+    }
+  }
+
+  .award-category{
+    .overlay-selected {
+      .done-image {
+        @include get-overlay-image(44px, 44px, relative, 35%, false, 100%, icon-done)
+      }
+    }
+  }
+
+  .voted-summery{
+    .done-image {
+      @include get-overlay-image(30px, 30px, absolute, false, 0, 100%, icon-done);
+    }
+    .voted-item{
+      .image{
+        padding-right:10px !important;
+      }
+      .title{
+        font-size:14px;
+      }
+    }
+    .question-image{
+      /*height:30px !important;
+      width:30px !important;*/
+    }
+    .prev-next-skip-btns{
+      .col-xs-12{
+        width: 50% !important;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        .button-style{
+          width:100%;
+        }
+      }
+    }
+  }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 500px) {
+  .voted-summery {
+    .voted-item-wrapper {
+      .summary-image-wrapper {
+        width: 30%;
+      }
+      .summary-image-description {
+        width: 68%;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 480px) {
+  .baillif{
+    .col-xs-6.award-image-block{
+      width: 100% !important;
+    }
+  }
+  .award-category{
+    .col-xs-6.nominee-image-block{
+      width: 100% !important;
+    }
+    .prev-next-skip-btns{
+      .col-xs-4{
+        width: 100% !important;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        .button-style{
+          width:100%;
+        }
+      }
+      .col-xs-4.text-center{
+        top:-5px;
+      }
+    }
+    .award-categories{
+      border-top:none;
+    }
+  }
+  .voted-summery{
+    .prev-next-skip-btns{
+      .col-xs-12{
+        width: 100% !important;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        .button-style{
+          width:100%;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 400px) {
+  .header-circle {
+    /*width: 14px;
+    height: 14px;*/
+  }
+  .header-circle-wrapper{
+    top: 14px;
+  }
+  .baillif-dashboard{
+    .chart-wrapper{
+      .col-xs-5, .col-xs-1{
+        width:100%;
+      }
+      .no-of-votes, .vote-date, .vote-desc, .vote-label, .platform{
+        text-align: center;
+        font-size:14px;
+      }
+      .voted-doughnut-chart-wrapper, .days-doughnut-chart-wrapper, .platform-doughnut-chart-wrapper{
+        width: 100%;
+        padding-left: 15%;
+        padding-right: 15%;
+        margin-bottom:15px;
+      }
+    }
+    .padding-top-20{
+      padding-top:5px;
+    }
+    .padding-bottom-20{
+      padding-bottom:5px;
+    }
+  }
+  .voted-summery {
+    .voted-item-wrapper{
+      .summary-image-wrapper{
+        width: 40%;
+      }
+      .summary-image-description{
+        width:56%;
+      }
+    }
+  }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 320px) {
+
+}
+
+/////////////////////////// End ustom media queries /////////////////////////////////
